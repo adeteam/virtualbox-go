@@ -3,11 +3,12 @@ package virtualbox
 import (
 	"context"
 	"fmt"
-	"github.com/golang/glog"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
+
+	"github.com/golang/glog"
 )
 
 func (vb *VBox) CreateVM(vm *VirtualMachine) error {
@@ -140,6 +141,11 @@ func (vb *VBox) VMInfo(uuidOrVmName string) (machine *VirtualMachine, err error)
 	})
 
 	vm := &VirtualMachine{}
+
+	// verify that the map is populated
+	if m["UUID"] == nil {
+		return vm, fmt.Errorf("vm %s does not exists", uuidOrVmName)
+	}
 
 	vm.UUID = m["UUID"].(string)
 	vm.Spec.Name = m["name"].(string)
