@@ -143,7 +143,7 @@ func (vb *VBox) VMInfo(uuidOrVmName string) (machine *VirtualMachine, err error)
 	vm := &VirtualMachine{}
 
 	// verify that the map is populated
-	if m["UUID"] == nil {
+	if uuid, ok := m["UUID"]; !ok || uuid == nil {
 		return vm, fmt.Errorf("vm %s does not exists", uuidOrVmName)
 	}
 
