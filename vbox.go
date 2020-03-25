@@ -99,7 +99,10 @@ func (vb *VBox) getVMSettingsFile(vm *VirtualMachine) string {
 }
 
 func (vb *VBox) manage(args ...string) (string, error) {
-	vboxManage := vboxManagePath()
+	vboxManage := vb.Config.VirtualBoxPath
+	if vboxManage == "" {
+		vboxManage = vboxManagePath()
+	}
 	cmd := exec.Command(vboxManage, args...)
 	glog.V(4).Infof("COMMAND: %v %v", vboxManage, strings.Join(args, " "))
 
