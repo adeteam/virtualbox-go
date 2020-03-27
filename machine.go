@@ -82,7 +82,7 @@ func (vb *VBox) SetVtx(vm *VirtualMachine, vtx bool) error {
 		vtxval = "on"
 	}
 
-	_, err := vb.modify(vm, "--vtxvpid", vtxval)
+	_, err := vb.modify(vm, "--vtxvpid", vtxval, "--vtxux", vtxval, "--hwvirtex", vtxval)
 	return err
 }
 
