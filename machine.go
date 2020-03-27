@@ -11,6 +11,17 @@ import (
 	"github.com/golang/glog"
 )
 
+func (vb *VBox) ImportVM(ovafile string, usevdi bool) error {
+	args := []string{"import", ovafile}
+
+	if usevdi {
+		args = append(args, "--options", "importtovdi")
+	}
+
+	_, err := vb.manage(args...)
+	return err
+}
+
 func (vb *VBox) CreateVM(vm *VirtualMachine) error {
 
 	args := []string{"createvm", "--name", vm.Spec.Name, "--ostype", vm.Spec.OSType.ID}
