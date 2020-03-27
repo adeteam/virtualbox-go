@@ -76,6 +76,26 @@ func (vb *VBox) SetCPUCount(vm *VirtualMachine, cpus int) error {
 	return err
 }
 
+func (vb *VBox) SetVtx(vm *VirtualMachine, vtx bool) error {
+	vtxval := "off"
+	if vtx {
+		vtxval = "on"
+	}
+
+	_, err := vb.modify(vm, "--vtxvpid", vtxval)
+	return err
+}
+
+func (vb *VBox) SetUSBSupport(vm *VirtualMachine, usb bool) error {
+	usbval := "off"
+	if usb {
+		usbval = "on"
+	}
+
+	_, err := vb.modify(vm, "--usb", usbval)
+	return err
+}
+
 func (vb *VBox) SetBootOrder(vm *VirtualMachine, bootOrder []BootDevice) error {
 	args := []string{}
 	for i, b := range bootOrder {
