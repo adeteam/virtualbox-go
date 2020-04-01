@@ -11,8 +11,8 @@ import (
 	"github.com/golang/glog"
 )
 
-func (vb *VBox) ImportVM(ovafile string, usevdi bool) error {
-	args := []string{"import", ovafile}
+func (vb *VBox) ImportVM(ovafile string, name string, usevdi bool) error {
+	args := []string{"import", ovafile, "--vmname", name}
 
 	if usevdi {
 		args = append(args, "--options", "importtovdi")
