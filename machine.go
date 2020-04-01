@@ -12,10 +12,13 @@ import (
 )
 
 func (vb *VBox) ImportVM(ovafile string, name string, usevdi bool) error {
-	args := []string{"import", ovafile, "--vmname", name}
+	args := []string{"import", ovafile}
 
 	if usevdi {
 		args = append(args, "--options", "importtovdi")
+	}
+	if name != "" {
+		args = append(args, "--vsys", "0", "--vmname", name)
 	}
 
 	_, err := vb.manage(args...)
