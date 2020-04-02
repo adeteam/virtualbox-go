@@ -11,14 +11,29 @@ import (
 	"github.com/golang/glog"
 )
 
-func (vb *VBox) ImportVM(ovafile string, name string, usevdi bool) error {
+func (vb *VBox) ImportVM(ovafile string, vm *VirtualMachine, baseFolder string, usevdi bool) error {
 	args := []string{"import", ovafile}
 
 	if usevdi {
 		args = append(args, "--options", "importtovdi")
 	}
-	if name != "" {
-		args = append(args, "--vsys", "0", "--vmname", name)
+
+	args = append(args, "--vsys", "0")
+
+	if vm.Spec.Name != "" {
+		args = append(args, "--vmname", vm.Spec.Name)
+	}
+	if vm.Spec.OSType.ID != "" {
+		args = append(args, "---ostype", vm.Spec.OSType.ID)
+	}
+	if vm.Spec.CPU.Count > 0 {
+		args = append(args, "--cpus", fmt.Sprintf("%d", vm.Spec.CPU.Count))
+	}
+	if vm.Spec.Memory.SizeMB > 0 {
+		args = append(args, "--memory", fmt.Sprintf("%d", vm.Spec.Memory.SizeMB))
+	}
+	if baseFolder != "" {
+		args = append(args, "--basefolder", baseFolder)
 	}
 
 	_, err := vb.manage(args...)
