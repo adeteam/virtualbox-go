@@ -24,7 +24,7 @@ func (vb *VBox) ImportVM(ovafile string, vm *VirtualMachine, baseFolder string, 
 		args = append(args, "--vmname", vm.Spec.Name)
 	}
 	if vm.Spec.OSType.ID != "" {
-		args = append(args, "---ostype", vm.Spec.OSType.ID)
+		args = append(args, "--ostype", vm.Spec.OSType.ID)
 	}
 	if vm.Spec.CPU.Count > 0 {
 		args = append(args, "--cpus", fmt.Sprintf("%d", vm.Spec.CPU.Count))
