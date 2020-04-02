@@ -110,6 +110,19 @@ func (vb *VBox) SetUSBSupport(vm *VirtualMachine, usb bool) error {
 	return err
 }
 
+func (vb *VBox) SetPortForward(vm *VirtualMachine, ruleName string, protocol string, hostPort int, guestPort int, nicAdapterIndex int) error {
+	if nicAdapterIndex == 0 {
+		nicAdapterIndex = 1
+	}
+
+	_, err := vb.modify(
+		vm,
+		fmt.Sprintf("--natpf%d", nicAdapterIndex),
+		fmt.Sprintf("%s,%s,,%d,,%d", ruleName, protocol, hostPort, guestPort),
+	)
+	return err
+}
+
 func (vb *VBox) SetBootOrder(vm *VirtualMachine, bootOrder []BootDevice) error {
 	args := []string{}
 	for i, b := range bootOrder {
